@@ -1,0 +1,60 @@
+include style
+html 
+    head 
+        title Movie Database - Contribute
+    body(class="flex flex-col  bg-theme-blue-600 text-2xl text-theme-blue-100 min-h-screen")
+        include ../partials/header 
+        div(class="flex-grow")
+        div(class="grid place-items-center flex-grow gap-10")
+            a(href="/")
+                img(src="/reel.png" width="200" height="200")
+            div(class="flex flex-col my-8 bg-theme-blue-500 text-xl text-theme-cream-200 px-8 pb-8")
+                h2(class="text-theme-cream-300 text-2xl py-2") Add a new crew member:
+                div(class="flex flex-col items-center text-theme-blue-200 space-y-2")
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Name: 
+                        input#newcrew(type="text" name="personname" class="w-96 h-8 rounded-md bg-theme-gray")
+                    form(action="/people")
+                        input#addperson(type="button" value="add person"  class="bg-theme-blue-300 hover:bg-theme-orange w-40 text-theme-cream-200 text-lg rounded-full  px-4")
+                h2(class="text-theme-cream-300 text-2xl py-2") Add a movie:
+                div(class="flex flex-col items-center text-theme-blue-200 space-y-6")
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Title: 
+                        input#title(type="text" name="title" class="w-96 h-8 rounded-md bg-theme-gray")
+                       
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Release Year: 
+                        input#releaseyear(type="text" name="year" class="w-96 h-8 rounded-md bg-theme-gray")
+                    
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Runtime: 
+                        input#runtime(type="text" name="runtime" class="w-96 h-8 rounded-md bg-theme-gray")
+                       
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Search Person:
+                        div(class="flex flex-col")
+                            input#search(type="text" name="writers" class="w-96 h-8 rounded-md bg-theme-gray")
+                            div#search-results()
+                    
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        input#adddirectors(type="button" value="add director" class="bg-theme-blue-300 hover:bg-theme-orange w-40 text-theme-cream-200 text-lg rounded-full  px-4")
+                        input#addwriters(type="button" value="add writer" class="bg-theme-blue-300 hover:bg-theme-orange w-40 text-theme-cream-200 text-lg rounded-full  px-4")
+                        input#addactors(type="button" value="add actor" class="bg-theme-blue-300 hover:bg-theme-orange w-40 text-theme-cream-200 text-lg rounded-full  px-4")
+
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Directors: 
+                        input#directors(type="text" disabled name="directors" class="w-96 h-8 rounded-md bg-theme-gray")
+                    
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Writers: 
+                        input#writers(type="text" disabled name="writers" class="w-96 h-8 rounded-md bg-theme-gray")                    
+                       
+                    div(class="flex flex-row items-center text-2xl space-x-8")
+                        p(class="w-44 text-right") Actors: 
+                        input#actors(type="text" disabled name="actors" class="w-96 h-8 rounded-md bg-theme-gray")
+                       
+                    div
+                        input#addmovie(type="button" value="add movie" class="bg-theme-blue-300 hover:bg-theme-orange w-40 text-theme-cream-200 text-lg rounded-full  px-4")
+    script
+        include ../../client/contribute.js
+include ../partials/footer

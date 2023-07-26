@@ -1,0 +1,75 @@
+include style
+html 
+    head 
+        title Movie Database - #{movie.title} 
+body(class="bg-theme-blue-600 text-2xl text-theme-blue-100")  
+    include ../partials/header
+    div(class="flex flex-col mx-auto max-w-7xl container px-4 lg:px-24")
+        div(class="mt-12")
+            div(class="flex flex-row my-8 px-2 space-x-10")
+                img(src=(movie.poster))
+                div(class="flex flex-col w-full h-full space-y-2 text-xl")
+                    div(class="mt-2 flex flex-row justify-end space-x-5 mb-8")
+                        input#addwatchlist(type="button" value="Add to watchlist" class="bg-theme-blue-300 cursor-pointer hover:bg-theme-orange text-theme-cream-200 text-lg rounded-full px-2")
+                    h2(class="text-5xl text-theme-cream-400") #{movie.title}
+                    p(class="py-2") Average Rating: #{rating}/10
+                    div(class="flex flex-row space-x-2")
+                        p(class="pr-4") R
+                        p |
+                        p(class="px-4") #{movie.runtime} 
+                        p |
+                            each gen in movie.genre
+                                a(href=`/movies?genre=${gen}` class="px-4 hover:text-theme-orange") #{gen}
+                                p | 
+                    div(class="flex flex-row space-x-2")
+                        p Directors :
+                        each dir in movie.directors
+                            a(href=`/people/${dir._id}` class="px-2 hover:text-theme-orange") #{dir.name}
+                    div(class="flex flex-row space-x-2")
+                        p Writers :
+                         each writ in movie.writers
+                                a(href=`/people/${writ._id}` class="px-2 hover:text-theme-orange") #{writ.name}
+                    div(class="flex flex-row space-x-2")
+                        p Actors :
+                         each act in movie.actors
+                                a(href=`/people/${act._id}` class="px-2 hover:text-theme-orange") #{act.name}    
+                    p Plot : #{movie.plot}
+            h2(class="mt-12 mb-4 text-theme-cream-300 text-3xl") Similar Movies :
+                div(class="grid text-theme-white grid-cols-1 sm:grid-cols-1 h-96 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                    each m in similar
+                        div(class="flex flex-col items-center") 
+                            a(href=`/movies/${m._id}` class="flex flex-col justify-center items-center h-80 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                                img(src=m.poster class="h-64 w-40")
+                                span(class="text-center text-2xl") #{m.title}
+
+            
+            div(class="flex flex-col my-8 text-xl text-theme-cream-200 mt-12 w-full")
+                if reviews.length > 0
+                    h2(class="text-theme-cream-200 text-2xl") Reviews:
+                    div(class="flex flex-col h-72 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                        each rev in reviews
+                            div(class="flex flex-col h-24 w-full bg-theme-blue-400 text-theme-blue-600 p-4 my-2 rounded" )
+                                    a(href=`/users/${rev.owner._id}` class="hover:text-theme-orange text-xl font-semibold cursor-pointer") #{rev.owner.username}
+                                    div(class="flex justify-between place-items-center flex-row space-x-5")
+                                        div(class="flex flex-row space-x-4")
+                                            h4(class="font-semibold") #{rev.score}
+                                            h4 #{rev.reviewBody.summary}
+                                        a(href=`/reviews/${rev._id}` class="hover:text-theme-orange text-lg" ) view details
+                form(class="flex flex-col my-8 bg-theme-blue-500 text-xl text-theme-cream-200 px-2 pb-8 rounded-md")
+                    h2(class="text-theme-cream-300 text-2xl py-2") Add a review:
+                    div(class="flex flex-col items-center text-theme-blue-200 space-y-2")
+                        div(class="flex flex-row items-center text-2xl space-x-8 ")
+                            p(class="w-44 text-right") Review Score: 
+                            input#score(type="number" min="0" max="10" name="revscore" class="w-96 h-6 text-theme-blue-600 rounded-md pl-2 bg-theme-gray" required)
+                            input#submitbasic(type="button" onclick='submitBasic("'+movie._id+'")' value="Submit Basic Review"  class="cursor-pointer bg-theme-blue-300 hover:bg-theme-orange w-48 text-theme-cream-200 text-lg rounded-full  px-4")
+                        div(class="flex flex-row items-center text-2xl space-x-8")
+                            p(class="w-44 text-right")  Review Summary:
+                            input#reviewsummary(type="text" class="w-96 h-6 rounded-md pl-2 text-theme-blue-600 bg-theme-gray")
+                            div(class="w-48")
+                        div(class="flex flex-row items-center text-2xl space-x-8")
+                            p(class="w-44 text-right") Full Review: 
+                            textarea#reviewfull(type="text" class="w-96 h-20 rounded-md text-theme-blue-600 px-2 bg-theme-gray")
+                            input#submitfull(type="button" onclick='submitFull("'+movie._id+'")' value="Submit Full Review"  class="cursor-pointer bg-theme-blue-300 hover:bg-theme-orange w-48  text-theme-cream-200 text-lg rounded-full  px-4")
+    script 
+        include ../../client/movie.js
+    include ../partials/footer 

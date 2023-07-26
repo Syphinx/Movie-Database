@@ -1,0 +1,27 @@
+include style
+html 
+    head 
+        title Movie Database - Review
+body(class="flex flex-col  bg-theme-blue-600 text-2xl text-theme-blue-100 min-h-screen")
+    include ../partials/header
+    div(class="flex-grow")
+        div(class="flex flex-col mx-auto max-w-7xl container px-4 lg:px-24")
+            div(class="mt-24")
+                div(class="flex flex-row justify-center space-x-3 my-8 bg-theme-blue-500 text-xl text-theme-cream-200 px-8 py-4 pb-8")
+                    img(src=(review.postedOn.poster) class="w-72")
+                    div(class="flex flex-col space-y-3 justify-center")
+                        a(href="/movies/exampleMovie" class="text-theme-cream-400 text-3xl hover:text-theme-orange") #{review.postedOn.title}
+                        div(class="flex flex-row items-left space-x-8")
+                            p(class="w-36") Reviewer:
+                            a(href=`/users/${review.owner._id}` class="hover:text-theme-orange") #{review.owner.username}
+                        div(class="flex flex-row items-left space-x-8")
+                            p(class="w-36") Score:
+                            p #{review.score}/10
+                        div(class="flex flex-row items-left space-x-8")
+                            p(class="w-36") Summary Text:                        
+                            p #{review.reviewBody.summary}
+                        div(class="flex flex-row items-left space-x-8")
+                            p(class="w-36") Full Review: 
+                            p #{review.reviewBody.fullReview} 
+
+    include ../partials/footer

@@ -1,0 +1,20 @@
+include style
+html
+	head 
+		title Movie Database - Index
+	body(class="flex flex-col bg-theme-blue-600 text-theme-blue-100 text-2xl min-h-screen")
+		include ../partials/header
+
+		div(class="flex-grow")
+		div(class="grid place-items-center flex-grow gap-12 ")
+			img(src="/reel.png" width="400" height="400")
+			div(class="flex w-7/12 flex-row space-x-4 text-theme-blue-600")
+				input#title(type="text" name="titleSearch" placeholder="Title..." class="bg-theme-white px-4 text-lg w-6/12 rounded-full")
+				input#actorName(type="text" name="actorSearch" placeholder="Actor..." class="bg-theme-white px-4 text-lg w-4/12 rounded-full")
+				select#genre(class="text-gray-500 px-4 text-lg bg-theme-white rounded-full w-3/12")
+					each g in Genres
+						option(value=g) #{g}
+				input#search(type="button", value="Search" class="cursor-pointer bg-theme-blue-300 hover:bg-theme-orange text-theme-cream-200 rounded-sm px-8 py-0.5 text-xl")
+		script 
+			include ../../client/search.js
+include ../partials/footer

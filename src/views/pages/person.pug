@@ -1,0 +1,46 @@
+include style
+html 
+    head 
+        title Movie Database - #{people.name}
+    body(class="flex flex-col bg-theme-blue-600 text-2xl")  
+        include ../partials/header
+        div(class="flex flex-grow")
+        div(class="flex flex-col flex-grow  mx-auto max-w-7xl container px-4 lg:px-24")
+            div(class="mt-24")
+                div(class="flex flex-col my-8 bg-theme-blue-500 text-xl text-theme-cream-200 px-2")
+                    div(class="flex flex-col items-center my-20")
+                        h2(class="text-theme-cream-300 text-5xl ") #{people.name}
+                        input#follow(type="button" onclick='followPerson("' + people._id + '")' value="follow" class="mt-4 bg-transparent underline hover:text-theme-orange cursor-pointer")
+            h2(class="text-theme-blue-200") Frequent Collaborators:
+            div(class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center xl:grid-cols-5 gap-4 h-32 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                each c in collabs
+                    a(href=`/people/${c._id}` class="flex items-center justify-center bg-theme-blue-400 rounded h-28 w-48 text-theme-blue-600  text-center px-4") #{c.name}
+
+            h2(class="text-theme-blue-100 text-2xl uppercase py-4") work history
+
+            if  people.directed.length > 0
+                h2(class="text-theme-blue-200") Directed:
+                div(class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                    each d in people.directed
+                        a(href=`/movies/${d._id}` class="flex flex-col justify-center items-center h-96 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                            img(src=d.poster class="h-64 w-44")
+                            span(class="text-center text-2xl") #{d.title}
+
+            if people.wrote.length > 0
+                h2(class="text-theme-blue-200") Wrote:
+                div(class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                    each w in people.wrote
+                        a(href=`/movies/${w._id}` class="flex flex-col justify-center items-center h-96 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                            img(src=w.poster class="h-64 w-44")
+                            span(class="text-center text-2xl") #{w.title}
+
+            if people.actedIn.length > 0
+                h2(class="text-theme-blue-200") Acted in:
+                    div(class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                        each a in people.actedIn
+                            a(href=`/movies/${a._id}` class="flex flex-col justify-center items-center h-96 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                                img(src=a.poster class="h-64 w-44")
+                                span(class="text-center text-2xl") #{a.title}
+    script 
+        include ../../client/person.js
+include ../partials/footer

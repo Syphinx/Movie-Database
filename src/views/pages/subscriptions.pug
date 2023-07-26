@@ -1,0 +1,34 @@
+include style
+html 
+    head 
+        title Movie Database - Followees 
+    body(class="flex flex-col bg-theme-blue-600 text-2xl text-theme-blue-100 min-h-screen")
+        include ../partials/header 
+        div(class="flex-grow")
+        div(class="grid place-items-center min-h-full")
+            div(class="flex flex-col justify-around palce-items-center w-3/5 h-3/5 bg-theme-blue-400 p-4")
+                div(class="flex flex-row justify-around h-full ")
+                        div(class="flex flex-col h-full")
+                            h3(class="text-theme-cream-300 my-4") People Followed:
+                            div(class="grid h-5/6 grid-cols-1 w-96 overflow-y-scroll space-y-2 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                                if account.peopleFollowed.length > 0
+                                    each p in account.peopleFollowed 
+                                     div(class="flex flex-col place-items-center border border-theme-blue-300 rounded-md space-y-4")
+                                        a(href=`/people/${p._id}` class="flex justify-center items-center bg-theme-blue-400  h-18  text-center mt-6 px-4 hover:text-theme-cream-300 cursor-pointer") #{p.name}
+                                        if me
+                                            input(type="button" onclick='unfollowPerson("'+ p._id +'")' value="unfollow" class="bg-transparent text-lg text-theme-orange hover:text-theme-blue-600 cursor-pointer")
+                        
+                        div(class="flex flex-col h-full")
+                            h3(class="text-theme-cream-300 my-4") Users Followed:
+                            div(class="grid grid-cols-1 w-96 overflow-y-scroll space-y-2 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                                if account.peopleFollowed.length > 0
+                                    each u in account.usersFollowed
+                                     div(class="flex flex-col place-items-center border border-theme-blue-300 rounded-md space-y-4")
+                                        a(href=`/users/${u._id}` class="flex justify-center items-center bg-theme-blue-400  h-18  text-center mt-6 px-4 hover:text-theme-cream-300 cursor-pointer")  #{u.username}
+                                        if me
+                                            input(type="button" onclick='unfollowUser("'+ u._id +'")' value="unfollow" class="bg-transparent text-lg text-theme-orange hover:text-theme-blue-600 cursor-pointer")
+    div(class="flex-grow")
+    
+    script 
+        include ../../client/subscriptions.js
+include ../partials/footer

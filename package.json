@@ -1,0 +1,30 @@
+{
+  "name": "movie-night",
+  "version": "1.0.0",
+  "description": "2406 Project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "npm run tailwind -- --env=production && npm run start:server",
+    "start:server": "node -r esm src/server.js",
+    "db:init": "node -r esm src/scripts/database-initializer.js",
+    "db:compute": "node -r esm src/scripts/compute-freq.js",
+    "db": "npm run db:init && npm run db:compute",
+    "tailwind": "postcss public/styles/tailwind.css -o public/styles/style.css"
+  },
+  "author": "Kheri Hughes",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.3",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.9",
+    "postcss-cli": "^8.3.1",
+    "tailwind-scrollbar": "^1.2.4",
+    "tailwindcss": "^2.0.4"
+  }
+}

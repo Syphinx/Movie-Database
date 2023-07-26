@@ -1,0 +1,79 @@
+include style
+html 
+    head 
+        title Movie Database - My Profile 
+body(class="bg-theme-blue-600 text-2xl")  
+    include ../partials/header
+    div(class="flex flex-col mx-auto max-w-7xl container px-4 lg:px-24")
+        div(class="mt-24")
+            div(class="flex flex-col place-items-center my-8 bg-theme-blue-500 text-xl text-theme-cream-200 px-2")
+                if me && account.contributor
+                    a(href="/contribute" class="text-right hover:text-theme-orange ") Contribute
+                if !me
+                    input#follow(type="button" onclick='followUser("' + account._id +'")' value="Follow" class="bg-transparent mt-2 hover:text-theme-orange cursor-pointer" )
+
+                div(class="flex flex-col items-center")
+                    h2(class="text-theme-cream-300 text-5xl my-6") #{account.username}
+                    div(class="flex-row space-x-20 mb-4")
+                        if me
+                            a(href=`/users/ownprofile/subscriptions` class="hover:text-theme-orange") Subscriptions
+                        else 
+                            a(href=`/users/${account._id}/subscriptions` class="hover:text-theme-orange") Subscriptions                        
+                    if me
+                        form(class="flex flex-row space-x-10")
+                            p
+                                | Regular: &nbsp
+                                input#reg(type="radio" name="acc" value="reg" checked="checked")
+                                | &nbsp Contributor: &nbsp
+                                input#con(type="radio" name="acc" value="con")
+                            input#submit(type="button" value="Change Role" class="bg-transparent underline hover:text-theme-orange")
+            if me && notifications.length > 0
+                h2(class="mt-12 mb-4 text-theme-cream-300 text-3xl") Notifications:
+                div(class="grid  h-36 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200 text-xl")
+                    each notif in notifications
+                        div(class="flex flex-row place-items-center h-14 w-full bg-theme-cream-300 text-theme-blue-600 p-4 my-2" )
+                            svg(xmlns="http://www.w3.org/2000/svg" onclick='deleteNotification("'+ notif._id +'")' class="cursor-pointer h-4 w-4 mr-4 fill-current text-theme-orange hover:text-theme-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor")
+                                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12")
+                            if notif.type == "movie"
+                                a(href=`/movies/${notif.movie._id}`) #{notif.movie.title}
+                                div(class="flex justify-between place-items-center flex-row space-x-5")
+                                    div(class="flex flex-row space-x-4")
+                                    h4(class="font-semibold") A professional you follow is featured in a new movie! 
+                            else if notif.type == "review" 
+                                a(href=`/movies/${notif.movie._id}`) #{notif.movie.title}
+                                div(class="flex justify-between place-items-center flex-row space-x-5")
+                                    div(class="flex flex-row space-x-4")
+                                    h4(class="font-semibold") A user you follow has reviewed a movie!
+        if me && recommended.length > 0
+            h2(class="my-4 text-theme-cream-300 text-3xl") Recommended Movies:
+                div(class="grid text-theme-white grid-cols-1 sm:grid-cols-1 h-96 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                    each m in recommended
+                        div(class="flex flex-col items-center") 
+                            a(href=`/movies/${m._id}` class="flex flex-col justify-center items-center h-80 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                                img(src=m.poster class="h-64 w-40")
+                                span(class="text-center text-2xl") #{m.title}
+
+        if account.watchlist.length > 0
+            h2(class="my-4 text-theme-cream-300 text-3xl") Movies watched:
+            div(class="grid text-theme-white grid-cols-1 sm:grid-cols-1 h-96 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200")
+                each movie in account.watchlist
+                    div(class="flex flex-col items-center") 
+                        a(href=`/movies/${movie._id}` class="flex flex-col justify-center items-center h-80 w-60 py-4 border border-theme-blue-300 rounded-md space-y-2 hover:border-theme-orange hover:text-theme-orange") 
+                            img(src=movie.poster class="h-64 w-40")
+                            span(class="text-center text-2xl") #{movie.title}
+                        if me
+                            input(type="button" onclick='removeFromWatchlist("'+ movie._id +'")' value="remove" class="my-4 cursor-pointer bg-transparent w-48 rounded-full text-lg text-theme-orange hover:text-theme-orange")     
+        if reviews.length > 0
+                h2(class="mt-12 mb-4 text-theme-cream-300 text-3xl") Reviews by #{account.username}:
+                div(class="grid h-72 overflow-y-scroll mb-4 scrollbar scrollbar-thin scrollbar-thumb-rounded scrollbar-track-theme-blue-500 scrollbar-thumb-blue-200 text-xl")
+                    each rev in reviews
+                        div(class="flex flex-col justify-around h-24 w-full bg-theme-blue-400 rounded text-theme-blue-600 p-8 my-2" )
+                            a(href=`/movies/${rev.postedOn._id}` class="hover:text-theme-orange text-xl mt-2 font-semibold cursor-pointer") #{rev.postedOn.title}
+                            div(class="flex justify-between place-items-center flex-row space-x-5")
+                                div(class="flex flex-row space-x-4")
+                                    h4(class="font-semibold") #{rev.score}
+                                    h4 #{rev.reviewBody.summary}
+                                a(href=`/reviews/${rev._id}` class="hover:text-theme-orange text-lg cursor-pointer") view details
+    script 
+        include ../../client/profile.js
+include ../partials/footer
